@@ -87,9 +87,11 @@ print(model.summary())
 # compile network
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 # fit network
-model.fit(X, y, epochs=100, verbose=2)
+model.fit(X, y, epochs=200, verbose=2)
+model_name = "History10_Units50_Epochs100"
+model.save(model_name)
 # evaluate model
-print(generate_seq(model, tokenizer, max_length-1, 'Brutus', 20))
+print(generate_seq(model, tokenizer, max_length-1, 'Brutus', 50))
 # print(generate_seq(model, tokenizer, max_length-1, 'And Jill', 3))
 # print(generate_seq(model, tokenizer, max_length-1, 'fell down', 5))
 # print(generate_seq(model, tokenizer, max_length-1, 'pail of', 5))
