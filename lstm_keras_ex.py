@@ -1,3 +1,4 @@
+# Reference - https://machinelearningmastery.com/develop-word-based-neural-language-models-python-keras/
 from numpy import array
 from keras.preprocessing.text import Tokenizer
 from keras.utils import to_categorical
