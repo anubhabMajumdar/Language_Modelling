@@ -4,6 +4,7 @@ from keras.preprocessing.text import Tokenizer
 from keras.utils import to_categorical
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import Sequential
+from keras.models import load_model
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Embedding
@@ -62,6 +63,8 @@ tokenizer.fit_on_texts([data])
 encoded = tokenizer.texts_to_sequences([data])[0]
 # retrieve vocabulary size
 history = 10
+units = 50
+epochs = 200
 vocab_size = len(tokenizer.word_index) + 1
 print('Vocabulary Size: %d' % vocab_size)
 # encode 2 words -> 1 word
@@ -81,15 +84,16 @@ y = to_categorical(y, num_classes=vocab_size)
 # define model
 model = Sequential()
 model.add(Embedding(vocab_size, 10, input_length=max_length-1))
-model.add(LSTM(50))
+model.add(LSTM(units))
 model.add(Dense(vocab_size, activation='softmax'))
 print(model.summary())
 # compile network
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 # fit network
-model.fit(X, y, epochs=200, verbose=2)
-model_name = "History10_Units50_Epochs100"
+model.fit(X, y, epochs=epochs, verbose=2)
+model_name = "History"+str(history)+"_Units"+str(units)+"_Epochs"+str(epochs)
 model.save(model_name)
+# model = load_model(model_name)
 # evaluate model
 print(generate_seq(model, tokenizer, max_length-1, 'Brutus', 50))
 # print(generate_seq(model, tokenizer, max_length-1, 'And Jill', 3))
