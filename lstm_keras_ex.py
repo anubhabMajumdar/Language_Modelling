@@ -8,6 +8,7 @@ from keras.models import load_model
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Embedding
+import h5py as h5py
 
 # generate a sequence from a language model
 def generate_seq(model, tokenizer, max_length, seed_text, n_words):
@@ -64,7 +65,7 @@ encoded = tokenizer.texts_to_sequences([data])[0]
 # retrieve vocabulary size
 history = 10
 units = 50
-epochs = 200
+epochs = 1000
 vocab_size = len(tokenizer.word_index) + 1
 print('Vocabulary Size: %d' % vocab_size)
 # encode 2 words -> 1 word
@@ -91,7 +92,9 @@ print(model.summary())
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 # fit network
 model.fit(X, y, epochs=epochs, verbose=2)
-model_name = "History"+str(history)+"_Units"+str(units)+"_Epochs"+str(epochs)
+# save model
+fn = fileName.split(".")
+model_name = fn[0]+"_History"+str(history)+"_Units"+str(units)+"_Epochs"+str(epochs)
 model.save(model_name)
 # model = load_model(model_name)
 # evaluate model
