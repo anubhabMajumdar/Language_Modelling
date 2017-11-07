@@ -31,27 +31,7 @@ def generate_seq(model, tokenizer, max_length, seed_text, n_words):
 		in_text += ' ' + out_word
 	return in_text
 
-# source text
-# data = """ Jack and Jill went up the hill\n
-# 		To fetch a pail of water\n
-# 		Jack fell down and broke his crown\n
-# 		And Jill came tumbling after\n """
-# data = """ FLAVIUS. Hence, home, you idle creatures, get you home.\n
-#     Is this a holiday? What, know you not,\n
-#     Being mechanical, you ought not walk\n
-#     Upon a laboring day without the sign\n
-#     Of your profession? Speak, what trade art thou?\n
-#   FIRST COMMONER. Why, sir, a carpenter.\n
-#   MARULLUS. Where is thy leather apron and thy rule?\n
-#     What dost thou with thy best apparel on?\n
-#     You, sir, what trade are you?\n
-#   SECOND COMMONER. Truly, sir, in respect of a fine workman, I am\n
-#     but, as you would say, a cobbler.\n
-#   MARULLUS. But what trade art thou? Answer me directly.\n
-#   SECOND COMMONER. A trade, sir, that, I hope, I may use with a safe\n """
-
-# fileName = "JuliusCaesar.txt"
-fileName = "AliceInWonderland.txt"
+fileName = "Alice_PAP_SH.txt"
 f = open(fileName, 'r')
 lines = f.readlines()
 lines = [x for x in lines if len(x)>1]
@@ -64,8 +44,8 @@ tokenizer = Tokenizer()
 tokenizer.fit_on_texts([data])
 encoded = tokenizer.texts_to_sequences([data])[0]
 # retrieve vocabulary size
-history = 10
-units = 200
+history = 50
+units = 100
 epochs = 100
 vocab_size = len(tokenizer.word_index) + 1
 print('Vocabulary Size: %d' % vocab_size)
@@ -99,7 +79,4 @@ model_name = "models/"+fn[0]+"_History"+str(history)+"_Units"+str(units)+"_Epoch
 model.save(model_name)
 # model = load_model(model_name)
 # evaluate model
-print(generate_seq(model, tokenizer, max_length-1, 'Alice', 50))
-# print(generate_seq(model, tokenizer, max_length-1, 'And Jill', 3))
-# print(generate_seq(model, tokenizer, max_length-1, 'fell down', 5))
-# print(generate_seq(model, tokenizer, max_length-1, 'pail of', 5))
+print(generate_seq(model, tokenizer, max_length-1, 'A', 50))
