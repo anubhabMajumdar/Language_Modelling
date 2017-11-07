@@ -64,8 +64,8 @@ tokenizer.fit_on_texts([data])
 encoded = tokenizer.texts_to_sequences([data])[0]
 # retrieve vocabulary size
 history = 10
-units = 50
-epochs = 1000
+units = 100
+epochs = 200
 vocab_size = len(tokenizer.word_index) + 1
 print('Vocabulary Size: %d' % vocab_size)
 # encode 2 words -> 1 word
