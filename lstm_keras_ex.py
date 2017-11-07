@@ -50,7 +50,8 @@ def generate_seq(model, tokenizer, max_length, seed_text, n_words):
 #   MARULLUS. But what trade art thou? Answer me directly.\n
 #   SECOND COMMONER. A trade, sir, that, I hope, I may use with a safe\n """
 
-fileName = "JuliusCaesar.txt"
+# fileName = "JuliusCaesar.txt"
+fileName = "AliceInWonderland.txt"
 f = open(fileName, 'r')
 lines = f.readlines()
 lines = [x for x in lines if len(x)>1]
@@ -65,7 +66,7 @@ encoded = tokenizer.texts_to_sequences([data])[0]
 # retrieve vocabulary size
 history = 10
 units = 200
-epochs = 100
+epochs = 1
 vocab_size = len(tokenizer.word_index) + 1
 print('Vocabulary Size: %d' % vocab_size)
 # encode 2 words -> 1 word
@@ -94,11 +95,11 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 model.fit(X, y, epochs=epochs, verbose=2)
 # save model
 fn = fileName.split(".")
-model_name = fn[0]+"_History"+str(history)+"_Units"+str(units)+"_Epochs"+str(epochs)
+model_name = "models/"+fn[0]+"_History"+str(history)+"_Units"+str(units)+"_Epochs"+str(epochs)
 model.save(model_name)
 # model = load_model(model_name)
 # evaluate model
-print(generate_seq(model, tokenizer, max_length-1, 'Brutus', 50))
+print(generate_seq(model, tokenizer, max_length-1, 'Alice', 50))
 # print(generate_seq(model, tokenizer, max_length-1, 'And Jill', 3))
 # print(generate_seq(model, tokenizer, max_length-1, 'fell down', 5))
 # print(generate_seq(model, tokenizer, max_length-1, 'pail of', 5))
