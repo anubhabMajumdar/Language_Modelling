@@ -37,7 +37,7 @@ lines = f.readlines()
 lines = [x for x in lines if len(x)>1]
 
 data = ""
-for i in lines:
+for i in lines[len(lines)/3:]:
 	data+=i
 # integer encode sequences of words
 tokenizer = Tokenizer()
