@@ -1,0 +1,5 @@
+FILENAME = 'JuliusCaesar.txt'
+HISTORY = 10
+UNITS = 10
+EPOCHS = 2
+OUTPUT_LENGTH = 20
