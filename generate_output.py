@@ -36,7 +36,7 @@ mapping_name = 'character_mappings/' + config.FILENAME.split('.')[0] + '_History
 mapping = load(open(mapping_name, 'rb'))
 
 # test start of rhyme
-print(generate_seq(model, mapping, config.HISTORY, 'A', config.OUTPUT_LENGTH))
+print(generate_seq(model, mapping, config.HISTORY, 'a', config.OUTPUT_LENGTH))
 # test mid-line
 # print(generate_seq(model, mapping, config.HISTORY, 'Brutus', config.OUTPUT_LENGTH))
 # test not in original

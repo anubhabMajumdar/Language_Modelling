@@ -44,7 +44,13 @@ y = to_categorical(y, num_classes=vocab_size)
 
 # define model
 model = Sequential()
-model.add(LSTM(config.UNITS, input_shape=(X.shape[1], X.shape[2])))
+model.add(LSTM(config.UNITS, return_sequences=config.LAYERS>1, input_shape=(X.shape[1], X.shape[2])))
+# Add layers
+for i in range(1,config.LAYERS):
+	if i==config.LAYERS-1:
+		model.add(LSTM(config.UNITS))
+	else:
+		model.add(LSTM(config.UNITS, return_sequences=True))
 model.add(Dense(vocab_size, activation='softmax'))
 print(model.summary())
 # compile model
