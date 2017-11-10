@@ -8,7 +8,7 @@ def load_doc(filename):
 	text = file.read()
 	# close the file
 	file.close()
-	return text
+	return text.lower()
 
 # save tokens to file, one dialog per line
 def save_doc(lines, filename):
@@ -20,7 +20,7 @@ def save_doc(lines, filename):
 fileName = config.FILENAME
 # load text
 raw_text = load_doc(fileName)
-print(raw_text)
+# print(raw_text)
 
 # clean
 tokens = raw_text.split()
@@ -32,10 +32,11 @@ sequences = list()
 for i in range(length, len(raw_text)):
 	# select sequence of tokens
 	seq = raw_text[i-length:i+1]
-	# store
-	sequences.append(seq)
+	if all(i.isalpha() or i==' ' or i=='.' or i==',' for i in seq):
+		# store
+		sequences.append(seq)
 print('Total Sequences: %d' % len(sequences))
 
 # save sequences to file
-out_filename = 'preprocessed/' + fileName.split()[0] + '_History_' + str(length) + '.txt'
+out_filename = 'preprocessed/' + fileName.split('.')[0] + '_History_' + str(length) + '.txt'
 save_doc(sequences, out_filename)

@@ -29,10 +29,10 @@ def generate_seq(model, mapping, seq_length, seed_text, n_chars):
 	return in_text
 
 # load the model
-model_name = 'character_models/' + config.FILENAME.split()[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
+model_name = 'character_models/' + config.FILENAME.split('.')[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
 model = load_model(model_name)
 # load the mapping
-mapping_name = 'character_mappings/' + config.FILENAME.split()[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
+mapping_name = 'character_mappings/' + config.FILENAME.split('.')[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
 mapping = load(open(mapping_name, 'rb'))
 
 # test start of rhyme
