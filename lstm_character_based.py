@@ -59,8 +59,8 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 model.fit(X, y, epochs=config.EPOCHS, verbose=2)
 
 # save the model to file
-model_name = 'character_models/' + config.FILENAME.split('.')[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
+model_name = 'character_models/' + config.FILENAME.split('.')[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_Layers_' + str(config.LAYERS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
 model.save(model_name)
 # save the mapping
-mapping_name = 'character_mappings/' + config.FILENAME.split('.')[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
+mapping_name = 'character_mappings/' + config.FILENAME.split('.')[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_Layers_' + str(config.LAYERS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
 dump(mapping, open(mapping_name, 'wb'))
