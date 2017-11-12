@@ -5,6 +5,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 import config
+import h5py as h5py
 
 # load doc into memory
 def load_doc(filename):
