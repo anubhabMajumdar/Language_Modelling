@@ -8,6 +8,7 @@ from keras.models import load_model
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Embedding
+import config
 import h5py as h5py
 
 # generate a sequence from a language model
@@ -31,7 +32,7 @@ def generate_seq(model, tokenizer, max_length, seed_text, n_words):
 		in_text += ' ' + out_word
 	return in_text
 
-fileName = "Alice_PAP_SH.txt"
+fileName = config.FILENAME
 f = open(fileName, 'r')
 lines = f.readlines()
 lines = [x for x in lines if len(x)>1]
@@ -44,9 +45,9 @@ tokenizer = Tokenizer()
 tokenizer.fit_on_texts([data])
 encoded = tokenizer.texts_to_sequences([data])[0]
 # retrieve vocabulary size
-history = 10
-units = 50
-epochs = 50
+history = config.HISTORY
+units = config.UNITS
+epochs = config.EPOCHS
 vocab_size = len(tokenizer.word_index) + 1
 print('Vocabulary Size: %d' % vocab_size)
 # encode 2 words -> 1 word
@@ -62,12 +63,26 @@ print('Max Sequence Length: %d' % max_length)
 # split into input and output elements
 sequences = array(sequences)
 X, y = sequences[:,:-1],sequences[:,-1]
+# sequences = [to_categorical(x, num_classes=vocab_size) for x in X]
+# X = array(sequences)
 y = to_categorical(y, num_classes=vocab_size)
 # define model
+# model = Sequential()
+# model.add(Embedding(vocab_size, 10, input_length=max_length-1))
+# model.add(LSTM(units))
+# model.add(Dense(vocab_size, activation='softmax'))
+
 model = Sequential()
 model.add(Embedding(vocab_size, 10, input_length=max_length-1))
-model.add(LSTM(units))
+model.add(LSTM(config.UNITS, return_sequences=config.LAYERS>1, input_shape=(10, config.UNITS)))
+# Add layers
+for i in range(1,config.LAYERS):
+	if i==config.LAYERS-1:
+		model.add(LSTM(config.UNITS))
+	else:
+		model.add(LSTM(config.UNITS, return_sequences=True))
 model.add(Dense(vocab_size, activation='softmax'))
+
 print(model.summary())
 # compile network
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -75,7 +90,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 model.fit(X, y, epochs=epochs, verbose=2)
 # save model
 fn = fileName.split(".")
-model_name = "models/"+fn[0]+"_History"+str(history)+"_Units"+str(units)+"_Epochs"+str(epochs)
+model_name = 'word_models/' + config.FILENAME.split('.')[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_Layers_' + str(config.LAYERS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
 model.save(model_name)
 # model = load_model(model_name)
 # evaluate model
