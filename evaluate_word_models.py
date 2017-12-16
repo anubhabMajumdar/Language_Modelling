@@ -1,5 +1,5 @@
-# The entire code is referenced from https://machinelearningmastery.com/develop-word-based-neural-language-models-python-keras/
-# I have made few changes to suit my use cases - Added capability of building multi-layer network
+# The entire code is referenced from https://machinelearningmastery.com/develop-character-based-neural-language-model-keras/
+# I have made few changes to suit my use cases
 
 from numpy import array
 from keras.preprocessing.text import Tokenizer
@@ -12,6 +12,8 @@ from keras.layers import LSTM
 from keras.layers import Embedding
 import config
 import h5py as h5py
+from os import listdir
+from os.path import isfile, join
 
 # generate a sequence from a language model
 def generate_seq(model, tokenizer, max_length, seed_text, n_words):
@@ -60,40 +62,34 @@ for i in range(history, len(encoded)):
 print('Total Sequences: %d' % len(sequences))
 # pad sequences
 max_length = max([len(seq) for seq in sequences])
-sequences = pad_sequences(sequences, maxlen=max_length, padding='pre')
-print('Max Sequence Length: %d' % max_length)
-# split into input and output elements
-sequences = array(sequences)
-X, y = sequences[:,:-1],sequences[:,-1]
-# sequences = [to_categorical(x, num_classes=vocab_size) for x in X]
-# X = array(sequences)
-y = to_categorical(y, num_classes=vocab_size)
-# define model
-# model = Sequential()
-# model.add(Embedding(vocab_size, 10, input_length=max_length-1))
-# model.add(LSTM(units))
-# model.add(Dense(vocab_size, activation='softmax'))
 
-model = Sequential()
-model.add(Embedding(vocab_size, 10, input_length=max_length-1))
-model.add(LSTM(config.UNITS, return_sequences=config.LAYERS>1, input_shape=(10, config.UNITS)))
-# Add layers
-for i in range(1,config.LAYERS):
-	if i==config.LAYERS-1:
-		model.add(LSTM(config.UNITS))
-	else:
-		model.add(LSTM(config.UNITS, return_sequences=True))
-model.add(Dense(vocab_size, activation='softmax'))
 
-print(model.summary())
-# compile network
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-# fit network
-model.fit(X, y, epochs=epochs, verbose=2)
-# save model
-fn = fileName.split(".")
-model_name = 'word_models/' + config.FILENAME.split('.')[0] + '_History_' + str(config.HISTORY) + '_Units_' + str(config.UNITS) + '_Layers_' + str(config.LAYERS) + '_EPOCHS_' + str(config.EPOCHS) + '.h5'
-model.save(model_name)
-# model = load_model(model_name)
-# evaluate model
-print(generate_seq(model, tokenizer, max_length-1, 'A', 50))
+path = "word_models/"
+files = [f for f in listdir(path) if isfile(join(path, f))]
+
+testFile = open('test.txt', 'r')
+testLines = testFile.readlines()
+
+testOutputFile = open('test_output.txt', 'r')
+testOutputLines = testOutputFile.readlines()
+
+for i in files:
+	for j, k in zip(testLines, testOutputLines):
+	# model_name = 'word_models/SH_History_10_Units_300_Layers_3_EPOCHS_200.h5'
+		if i.startswith('SH'):
+			model_name = path + i
+			model = load_model(model_name)
+			# evaluate model
+			print model_name
+			print j
+			print(generate_seq(model, tokenizer, max_length-1, j, 10))
+			print j + " " + k
+			print "-------------------------------------------------------"
+
+
+
+
+
+
+
+

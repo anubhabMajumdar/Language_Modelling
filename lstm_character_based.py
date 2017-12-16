@@ -1,3 +1,6 @@
+# The entire code is referenced from https://machinelearningmastery.com/develop-character-based-neural-language-model-keras/
+# I have made few changes to suit my use cases - Added capability of building multi-layer network
+
 from numpy import array
 from pickle import dump
 from keras.utils import to_categorical

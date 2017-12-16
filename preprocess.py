@@ -1,3 +1,6 @@
+# The entire code is referenced from https://machinelearningmastery.com/develop-character-based-neural-language-model-keras/
+# I have made few changes to suit my use cases
+
 import config
 
 # load doc into memory

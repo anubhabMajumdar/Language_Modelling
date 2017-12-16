@@ -1,3 +1,6 @@
+# The entire code is referenced from https://machinelearningmastery.com/develop-character-based-neural-language-model-keras/
+# I have made few changes to suit my use cases
+
 from pickle import load
 from keras.models import load_model
 from keras.utils import to_categorical
@@ -37,7 +40,7 @@ mapping_name = 'character_mappings/' + config.FILENAME.split('.')[0] + '_History
 mapping = load(open(mapping_name, 'rb'))
 
 # test start of rhyme
-print(generate_seq(model, mapping, config.HISTORY, 'a', config.OUTPUT_LENGTH))
+print(generate_seq(model, mapping, config.HISTORY, config.SEED.lower(), config.OUTPUT_LENGTH))
 # test mid-line
 # print(generate_seq(model, mapping, config.HISTORY, 'Brutus', config.OUTPUT_LENGTH))
 # test not in original
